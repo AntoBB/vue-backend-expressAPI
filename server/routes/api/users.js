@@ -3,6 +3,8 @@ const mongodb = require('mongodb')
 
 const router = express.Router();
 
+const jwt = require("jsonwebtoken");
+
 // Get users
 router.get('/', async (req, res) => {
     const users = await loadusersCollection();
@@ -20,6 +22,23 @@ router.get('/LoginUser/', async (req, res) => {
 
     res.send(await users.findOne({username:_username}));
     res.status(201).send();
+    //res.send('hello users!');
+    
+});
+
+// Login url
+router.post('/LoginUrl/', async (req, res) => {
+    
+    //const myreq = String(req.body.myreg).split('#');
+        
+    //_username = req.body.myreg[0];
+    //_password = req.body.myreg[1];
+    
+    //const users = await loadusersCollection();
+
+    //res.send(await users.findOne({username:_username}));
+    console.log(req);
+    res.status(201).send("GNO!");
     //res.send('hello users!');
     
 });
