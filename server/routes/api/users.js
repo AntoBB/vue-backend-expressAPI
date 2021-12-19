@@ -1,5 +1,7 @@
 const express = require('express');
 const mongodb = require('mongodb')
+require("dotenv").config();
+const cors = require('cors');
 
 const router = express.Router();
 
@@ -42,6 +44,30 @@ router.post('/LoginUrl/', async (req, res) => {
     //res.send('hello users!');
     
 });
+router.post("/login/", (req, res) => {
+    const USERNAME = "cody";
+    const PASSWORD = "123456";
+  
+    const { username, password } = req.body;
+    console.log(req);
+    if (username === USERNAME && password === PASSWORD) {
+      const user = {
+        id: 1,
+        name: "cody",
+        username: "cody",
+      };
+      const mytoken = jwt.sign(user, process.env.JWT_KEY);
+      res.json({
+        mytoken,
+        user,
+      });
+    } else {
+      res.status(403);
+      res.json({
+        message: "invalid login information",
+      });
+    }
+  });
 
 //Add Post
 router.post('/RegisterUser/', async (req, res) => {
