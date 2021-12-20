@@ -49,7 +49,13 @@ router.post("/login/", (req, res) => {
     const PASSWORD = "123456";
   
     const { username, password } = req.body;
-    console.log(req);
+    const user = findUser(username, password);
+    
+    console.log(typeof(user));
+    //const users = loadusersCollection();
+    //console.log(users.findOne({username:username}));
+    //console.log(req);
+    
     if (username === USERNAME && password === PASSWORD) {
       const user = {
         id: 1,
@@ -94,6 +100,17 @@ router.post('/RegisterUser/', async (req, res) => {
         useUnifiedTopology: true
     });
     return client.db('TestProject1').collection('users');
+}
+
+async function findUser(myusername, mypassword) {
+  const client = await mongodb.MongoClient.connect
+  ('mongodb+srv://dbUserTest:testuser@cluster0.f4mp6.mongodb.net/admin', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+  });
+  const users = client.db('TestProject1').collection('users');
+  console.log(await users.findOne({username:myusername, password:mypassword}));
+  //return await users.findOne({username:myusername, password:mypassword});
 }
 
 module.exports = router;
