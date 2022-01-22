@@ -44,24 +44,13 @@ router.post('/LoginUrl/', async (req, res) => {
     //res.send('hello users!');
     
 });
-router.post("/login/", (req, res) => {
-    const USERNAME = "cody";
-    const PASSWORD = "123456";
-  
+router.post("/login/", async (req, res) => {
+    
     const { username, password } = req.body;
-    const user = findUser(username, password);
+    const user = await findUser(username, password);
+    //console.log(user);
     
-    console.log(typeof(user));
-    //const users = loadusersCollection();
-    //console.log(users.findOne({username:username}));
-    //console.log(req);
-    
-    if (username === USERNAME && password === PASSWORD) {
-      const user = {
-        id: 1,
-        name: "cody",
-        username: "cody",
-      };
+    if(user != null){
       const mytoken = jwt.sign(user, process.env.JWT_KEY);
       res.json({
         mytoken,
@@ -109,8 +98,8 @@ async function findUser(myusername, mypassword) {
       useUnifiedTopology: true
   });
   const users = client.db('TestProject1').collection('users');
-  console.log(await users.findOne({username:myusername, password:mypassword}));
-  //return await users.findOne({username:myusername, password:mypassword});
+  //console.log(await users.findOne({username:myusername, password:mypassword}));
+  return users.findOne({username:myusername, password:mypassword});
 }
 
 module.exports = router;
