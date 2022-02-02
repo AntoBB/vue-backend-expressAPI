@@ -8,6 +8,15 @@ router.get('/', async (req, res) => {
     const posts = await loadPostsCollection();
     res.send(await posts.find({}).toArray());
     //res.send('hello posts!');
+});3
+
+// Get UserPosts
+router.post('/getUserPosts/', async (req, res) => {
+    const { username } = req.body;
+    const userPosts = await findUserPosts(username);
+        res.json({
+            userPosts
+        });
 });
 
 //Add Post
@@ -35,5 +44,21 @@ router.delete('/:id', async (req, res) => {
     });
     return client.db('TestProject1').collection('posts');
 }
+
+async function findUserPosts(myusername) {
+    const client = await mongodb.MongoClient.connect
+    ('mongodb+srv://dbUserTest:testuser@cluster0.f4mp6.mongodb.net/admin', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    const users = client.db('TestProject1').collection('Users');
+    //console.log(await users.findOne({username:myusername, password:mypassword}));
+    const user = await users.findOne({username:myusername});
+    return userPostsList = user["posts"];
+    
+    //const _userPost = _user.find(posts)
+    //console.log(_user)
+    //console.log(typeof(_user))
+  }
 
 module.exports = router;

@@ -83,7 +83,7 @@ async function findUser(myusername, mypassword) {
       useNewUrlParser: true,
       useUnifiedTopology: true
   });
-  const users = client.db('TestProject1').collection('users');
+  const users = client.db('TestProject1').collection('Users');
   //console.log(await users.findOne({username:myusername, password:mypassword}));
   return users.findOne({username:myusername, password:mypassword});
 }
