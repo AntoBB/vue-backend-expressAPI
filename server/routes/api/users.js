@@ -58,9 +58,9 @@ router.post('/RegisterUser/', async (req, res) => {
   if(_usernameExist == null && _emailExist == null){
    const users = await loadusersCollection();
     await users.insertOne({
-        email: req.body.email,
         username: req.body.username,
         password: req.body.password,
+        email: req.body.email,
         createdAt: new Date()
    });
   res.status(200).send();

@@ -19,6 +19,15 @@ router.post('/getUserPosts/', async (req, res) => {
         });
 });
 
+// Get UserPostsARRAY
+router.post('/getUserPostsArr/', async (req, res) => {
+    const { username } = req.body;
+    const posts = await loadUserPostsCollection(username);
+    //res.send(await posts.find({}).toArray());
+    res.send(posts)
+});
+
+
 //Add Post
 router.post('/', async (req, res) => {
     const posts = await loadPostsCollection();
@@ -43,6 +52,22 @@ router.delete('/:id', async (req, res) => {
         useUnifiedTopology: true
     });
     return client.db('TestProject1').collection('posts');
+}
+async function loadUserPostsCollection(myusername) {
+    const client = await mongodb.MongoClient.connect
+    ('mongodb+srv://dbUserTest:testuser@cluster0.f4mp6.mongodb.net/admin', {
+        useNewUrlParser: true,
+        useUnifiedTopology: true
+    });
+    let UsersCollection = client.db('TestProject1').collection('Users');
+    const user = await UsersCollection.findOne({username:myusername});
+    let userPostsList = user["posts"];
+    let userPostsListtoArr = [];
+
+    for(let i=0; i<userPostsList.length; i++){
+
+    }
+    return userPostsList["post_\^"]
 }
 
 async function findUserPosts(myusername) {
